@@ -1,0 +1,6 @@
+[package]
+name = "rusty-sorts"
+version = "0.1.0"
+authors = ["brianarpie <brian.arpie@gmail.com>"]
+
+[dependencies]
