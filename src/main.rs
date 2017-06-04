@@ -1,18 +1,57 @@
 mod sorts;
+mod benchmark;
+extern crate rand;
+use rand::distributions::{IndependentSample, Range};
+use std::i32;
 
 fn main() {
-    let arr = [5, 7, 1, 9, 4, 12, 3, 2, 1, 0, 11];
+    // TODO: move the array instantiation into a separate method.
+    const ARRAY_LENGTH: usize = 20000;
+    let mut array: [i32; ARRAY_LENGTH] = [0;ARRAY_LENGTH];
 
-    let mut arr1 = arr;
-    let insertion = sorts::insertion_sort(&mut arr1);
+    let between = Range::new(0, 1000);
+    let mut rng = rand::thread_rng();
 
-    let mut arr2 = arr;
-    let selection = sorts::selection_sort(&mut arr2);
+    for i in 0..ARRAY_LENGTH {
+        array[i] = between.ind_sample(&mut rng);
+    }
 
-    let mut arr3 = arr;
-    let merge = sorts::merge_sort(&mut arr3);
+    let mut array1 = array;
+    let insertion = sorts::insertion_sort;
+    let insertion_time = time_sort(&insertion, &mut array1);
 
-    println!("insertion sort: {:?}", insertion);
-    println!("selection sort: {:?}", selection);
-    println!("merge sort: {:?}", merge);
+    let mut array2 = array;
+    let selection = sorts::selection_sort;
+    let selection_time = time_sort(&selection, &mut array2);
+
+    let mut array3 = array;
+    let merge = sorts::merge_sort;
+    let merge_time = time_sort(&merge, &mut array3);
+
+    println!("selection: {}ms", selection_time);
+    println!("insertion: {}ms", insertion_time);
+    println!("merge: {}ms", merge_time);
+}
+
+fn time_sort(sort: &Fn(&mut[i32]) -> &mut[i32], array: &mut[i32]) -> usize {
+    let mut timer = benchmark::Timer::new();
+
+    timer.start();
+    let sorted_array = sort(array);
+    timer.stop();
+
+    verify_sorted(sorted_array);
+
+    timer.get_elapsed_in_ms() as usize
+}
+
+fn verify_sorted(array: &mut[i32]) {
+    let mut i_min = i32::MIN;
+    for i in 0..array.len() {
+        if array[i] >= i_min {
+            i_min = array[i];
+        } else {
+            panic!()
+        }
+    }
 }
