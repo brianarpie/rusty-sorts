@@ -33,6 +33,44 @@ pub fn merge_sort(mut array: &mut[i32]) -> &mut[i32] {
   let high = array.len() - 1 ;
   _merge_sort(&mut array, &mut helper, low, high);
   array
+
+}
+
+// TODO: see if we can have these methods extend a common interface or similar rust structure.
+pub fn quick_sort(mut array: &mut[i32]) -> &mut[i32] {
+    let low = 0;
+    let high = array.len() - 1;
+    _quick_sort(&mut array, low, high);
+    array
+}
+
+
+fn _quick_sort(array: &mut[i32], low: usize, high: usize) {
+    if low < high {
+        let p = partition(array, low, high);
+        _quick_sort(array, low, p);
+        _quick_sort(array, p+1, high);
+    }
+}
+
+fn partition(array: &mut[i32], low: usize, high: usize) -> usize {
+    let pivot = array[low];
+    let mut i:i32 = low as i32 - 1;
+    let mut j:i32 = high as i32 + 1;
+    loop {
+        i = i + 1; // do, while
+        while array[i as usize] < pivot {
+            i = i + 1;
+        }
+        j = j - 1; // do, while
+        while array[j as usize] > pivot {
+            j = j - 1;
+        }
+        if i >= j {
+            return j as usize;
+        }
+        array.swap(i as usize, j as usize);
+    }
 }
 
 fn _merge_sort(array: &mut[i32], helper: &mut[i32], low: usize, high: usize) {

@@ -28,9 +28,15 @@ fn main() {
     let merge = sorts::merge_sort;
     let merge_time = time_sort(&merge, &mut array3);
 
+    let mut array4 = array;
+    let quick = sorts::quick_sort;
+    let quick_time = time_sort(&quick, &mut array4);
+
+    println!("sorting {} elements", ARRAY_LENGTH);
     println!("selection: {}ms", selection_time);
     println!("insertion: {}ms", insertion_time);
     println!("merge: {}ms", merge_time);
+    println!("quick: {}ms", quick_time);
 }
 
 fn time_sort(sort: &Fn(&mut[i32]) -> &mut[i32], array: &mut[i32]) -> usize {
