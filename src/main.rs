@@ -6,7 +6,7 @@ use std::i32;
 
 fn main() {
     // TODO: move the array instantiation into a separate method.
-    const ARRAY_LENGTH: usize = 20000;
+    const ARRAY_LENGTH: usize = 10000;
     let mut array: [i32; ARRAY_LENGTH] = [0;ARRAY_LENGTH];
 
     let between = Range::new(0, 1000);
@@ -51,7 +51,7 @@ fn verify_sorted(array: &mut[i32]) {
         if array[i] >= i_min {
             i_min = array[i];
         } else {
-            panic!()
+            panic!("Sort method failed to sort!");
         }
     }
 }

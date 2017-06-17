@@ -10,8 +10,8 @@ impl Timer {
     pub fn new() -> Timer {
         Timer { 
             start_time: time::now(),
-            end_time: time::now(),
-            elapsed: time::now()
+            end_time:   time::now(),
+            elapsed:    time::now()
         }
     }
     pub fn start(&mut self) {
